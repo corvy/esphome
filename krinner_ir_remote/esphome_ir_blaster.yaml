@@ -1,0 +1,565 @@
+substitutions:
+  devicename: ir-blaster-livingroom
+  friendly_name: Livingroom IR Blaster
+
+# Set device attributes
+esphome:
+  name: $devicename
+  platform: ESP8266
+  board: esp01_1m
+
+# Enable Wi-Fi connection
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:
+    ssid: ESP-${devicename}
+    password: !secret esp_pw
+
+# Enable captive poral
+captive_portal:
+
+# Enable websever
+web_server:
+  port: 80
+  auth:
+    username: !secret esp_user
+    password: !secret esp_pw
+
+# Enable HomeAssistant API
+api:
+  encryption:
+    key: !secret key
+
+ota:
+  password: !secret ota_pw
+
+# Enable logging without UART support as there would be no way to read it
+logger:
+  baud_rate: 0
+
+# Enable external blue LED as a status indictator
+status_led:
+  pin:
+    number: GPIO4
+
+# Enable the IR receiver to dump all IR commands to the log. Change dump type to your capture remote type. Use the captured IR command to replicate that IR command. You can disable this part when you aren't capturing IR command data.
+#remote_receiver:
+#  pin:
+#    number: GPIO5
+#    inverted: true
+#    #mode:
+#    #  input: true
+#    #  pullup: true
+#  dump: raw
+  
+# Enable the remote transmitter
+remote_transmitter:
+  pin: GPIO14
+  carrier_duty_percent: 50%
+
+# Enable the underside button.
+#binary_sensor:
+#  - platform: gpio
+#    pin:
+#      number: GPIO13
+#      inverted: true
+#    name: Underside Button
+
+light:
+  - platform: binary
+    name: "Juletrelys A"
+    restore_mode: RESTORE_DEFAULT_OFF
+    output: none
+    on_turn_on:
+      - output.turn_on: krinner_on_a
+    on_turn_off:
+      - output.turn_on: krinner_off_a
+  - platform: binary
+    name: "Juletrelys B"
+    restore_mode: RESTORE_DEFAULT_OFF
+    output: none
+    on_turn_on:
+      - output.turn_on: krinner_on_b
+    on_turn_off:
+      - output.turn_on: krinner_off_b
+  - platform: binary
+    name: "Juletrelys C"
+    restore_mode: RESTORE_DEFAULT_OFF
+    output: none
+    on_turn_on:
+      - output.turn_on: krinner_on_c
+    on_turn_off:
+      - output.turn_on: krinner_off_c
+
+### CHANNEL A ###
+button:
+  - platform: template
+    name: "Juletrelys A Dim 1"
+    on_press:
+      - output.turn_on: krinner_on_a
+  - platform: template
+    name: "Juletrelys A Dim 2"
+    on_press:
+      - output.turn_on: krinner_br2_a
+  - platform: template
+    name: "Juletrelys A Dim 3"
+    on_press:
+      - output.turn_on: krinner_br3_a
+  - platform: template
+    name: "Juletrelys A Dim 4"
+    on_press:
+      - output.turn_on: krinner_br4_a
+  - platform: template
+    name: "Juletrelys A Dim 5"
+    on_press:
+      - output.turn_on: krinner_br5_a
+  - platform: template
+    name: "Juletrelys A Timer Start"
+    on_press:
+      - output.turn_on: krinner_tr_a
+  - platform: template
+    name: "Juletrelys A Timer Stop"
+    on_press:
+      - output.turn_on: krinner_4h_a
+  - platform: template
+    name: "Juletrelys A Sakte Blink"
+    on_press:
+      - output.turn_on: krinner_sl_a
+  - platform: template
+    name: "Juletrelys A Rask Blink"
+    on_press:
+      - output.turn_on: krinner_fs_a
+  - platform: template
+    name: "Juletrelys A Superlight"
+    on_press:
+      - output.turn_on: krinner_x_a
+
+### CHANNEL B ###
+  - platform: template
+    name: "Juletrelys B Dim 1"
+    on_press:
+      - output.turn_on: krinner_on_b
+  - platform: template
+    name: "Juletrelys B Dim 2"
+    on_press:
+      - output.turn_on: krinner_br2_b
+  - platform: template
+    name: "Juletrelys B Dim 3"
+    on_press:
+      - output.turn_on: krinner_br3_b
+  - platform: template
+    name: "Juletrelys B Dim 4"
+    on_press:
+      - output.turn_on: krinner_br4_b
+  - platform: template
+    name: "Juletrelys B Dim 5"
+    on_press:
+      - output.turn_on: krinner_br5_b
+  - platform: template
+    name: "Juletrelys B Timer Start"
+    on_press:
+      - output.turn_on: krinner_tr_b
+  - platform: template
+    name: "Juletrelys B Timer Stop"
+    on_press:
+      - output.turn_on: krinner_4h_b
+  - platform: template
+    name: "Juletrelys B Sakte Blink"
+    on_press:
+      - output.turn_on: krinner_sl_b
+  - platform: template
+    name: "Juletrelys B Rask Blink"
+    on_press:
+      - output.turn_on: krinner_fs_b
+  - platform: template
+    name: "Juletrelys B Superlight"
+    on_press:
+      - output.turn_on: krinner_x_b
+
+### CHANNEL C ###
+  - platform: template
+    name: "Juletrelys C Dim 1"
+    on_press:
+      - output.turn_on: krinner_on_c
+  - platform: template
+    name: "Juletrelys C Dim 2"
+    on_press:
+      - output.turn_on: krinner_br2_c
+  - platform: template
+    name: "Juletrelys C Dim 3"
+    on_press:
+      - output.turn_on: krinner_br3_c
+  - platform: template
+    name: "Juletrelys C Dim 4"
+    on_press:
+      - output.turn_on: krinner_br4_c
+  - platform: template
+    name: "Juletrelys C Dim 5"
+    on_press:
+      - output.turn_on: krinner_br5_c
+  - platform: template
+    name: "Juletrelys C Timer Start"
+    on_press:
+      - output.turn_on: krinner_tr_c
+  - platform: template
+    name: "Juletrelys C Timer Stop"
+    on_press:
+      - output.turn_on: krinner_4h_c
+  - platform: template
+    name: "Juletrelys C Sakte Blink"
+    on_press:
+      - output.turn_on: krinner_sl_c
+  - platform: template
+    name: "Juletrelys C Rask Blink"
+    on_press:
+      - output.turn_on: krinner_fs_c
+  - platform: template
+    name: "Juletrelys C Superlight"
+    on_press:
+      - output.turn_on: krinner_x_c
+
+
+
+output:
+  - platform: template
+    type: binary
+    id: none
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [ 0 ]
+### CHANNEL A ###
+  - platform: template
+    type: binary
+    id: krinner_on_a
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-1000,400,-400,1000,-1000,400,-1000,400,-400,1000,-1000,400,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_off_a
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-1000,400,-400,1000,-1000,400,-1000,400,-400,1000,-400,1000,-400,1000,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_tr_a
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-400,1000,-1000,400,-400,1000,-1000,400,-1000,400,-400,1000,-1000,400,-400,1000,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_sl_a
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-1000,400,-400,1000,-1000,400,-1000,400,-400,1000,-400,1000,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_fs_a
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-1000,400,-400,1000,-1000,400,-1000,400,-400,1000,-1000,400,-400,1000,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_x_a
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-400,1000,-1000,400,-400,1000,-1000,400,-1000,400,-400,1000,-400,1000,-400,1000,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_4h_a
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-400,1000,-1000,400,-400,1000,-1000,400,-1000,400,-400,1000,-400,1000,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_br2_a
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-1000,400,-400,1000,-400,1000,-1000,400,-400,1000,-1000,400,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_br3_a
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-400,1000,-1000,400,-1000,400,-1000,400,-400,1000,-1000,400,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_br4_a
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-400,1000,-1000,400,-400,1000,-1000,400,-400,1000,-1000,400,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_br5_a
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-400,1000,-400,1000,-1000,400,-1000,400,-400,1000,-1000,400,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+
+### CHANNEL B ###
+  - platform: template
+    type: binary
+    id: krinner_on_b
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-1000,400,-400,1000,-1000,400,-1000,400,-1000,400,-1000,400,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_off_b
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-1000,400,-400,1000,-1000,400,-1000,400,-1000,400,-400,1000,-400,1000,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_tr_b
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-400,1000,-1000,400,-400,1000,-1000,400,-1000,400,-1000,400,-1000,400,-400,1000,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_sl_b
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-1000,400,-400,1000,-1000,400,-1000,400,-1000,400,-400,1000,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_fs_b
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-1000,400,-400,1000,-1000,400,-1000,400,-1000,400,-1000,400,-400,1000,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_x_b
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-400,1000,-1000,400,-400,1000,-1000,400,-1000,400,-1000,400,-400,1000,-400,1000,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_4h_b
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-400,1000,-1000,400,-400,1000,-1000,400,-1000,400,-1000,400,-400,1000,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_br2_b
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-1000,400,-400,1000,-400,1000,-1000,400,-1000,400,-1000,400,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_br3_b
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-400,1000,-1000,400,-1000,400,-1000,400,-1000,400,-1000,400,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_br4_b
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-400,1000,-1000,400,-400,1000,-1000,400,-1000,400,-1000,400,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_br5_b
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-400,1000,-400,1000,-1000,400,-1000,400,-1000,400,-1000,400,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+
+### CHANNEL C ###
+  - platform: template
+    type: binary
+    id: krinner_on_c
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-1000,400,-400,1000,-1000,400,-400,1000,-1000,400,-1000,400,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_off_c
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-1000,400,-400,1000,-1000,400,-400,1000,-1000,400,-400,1000,-400,1000,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_tr_c
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-400,1000,-1000,400,-400,1000,-1000,400,-400,1000,-1000,400,-1000,400,-400,1000,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_sl_c
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-1000,400,-400,1000,-1000,400,-400,1000,-1000,400,-400,1000,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_fs_c
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-1000,400,-400,1000,-1000,400,-400,1000,-1000,400,-1000,400,-400,1000,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_x_c
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-400,1000,-1000,400,-400,1000,-1000,400,-400,1000,-1000,400,-400,1000,-400,1000,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_4h_c
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-400,1000,-1000,400,-400,1000,-1000,400,-400,1000,-1000,400,-400,1000,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_br2_c
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-1000,400,-400,1000,-400,1000,-400,1000,-1000,400,-1000,400,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_br3_c
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-400,1000,-1000,400,-1000,400,-400,1000,-1000,400,-1000,400,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_br4_c
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-400,1000,-1000,400,-400,1000,-400,1000,-1000,400,-1000,400,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
+  - platform: template
+    type: binary
+    id: krinner_br5_c
+    write_action:
+      - remote_transmitter.transmit_raw:
+          code: [2000,-1000,400,-400,1000,-400,1000,-1000,400,-400,1000,-1000,400,-1000,400,-1000,400,-400,2000,-5600]
+          carrier_frequency: 38kHz
+          repeat:
+            times: 15
+            wait_time: 16ms
